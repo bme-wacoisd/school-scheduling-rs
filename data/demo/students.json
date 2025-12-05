@@ -1,0 +1,142 @@
+[
+  {
+    "elective_preferences": [
+      "art",
+      "music"
+    ],
+    "grade": 10,
+    "id": "s001",
+    "name": "Alice Johnson",
+    "required_courses": [
+      "math10",
+      "eng10",
+      "sci10"
+    ]
+  },
+  {
+    "elective_preferences": [
+      "music",
+      "art"
+    ],
+    "grade": 10,
+    "id": "s002",
+    "name": "Bob Smith",
+    "required_courses": [
+      "math10",
+      "eng10",
+      "sci10"
+    ]
+  },
+  {
+    "elective_preferences": [
+      "art",
+      "pe"
+    ],
+    "grade": 10,
+    "id": "s003",
+    "name": "Carol Davis",
+    "required_courses": [
+      "math10",
+      "eng10",
+      "sci10"
+    ]
+  },
+  {
+    "elective_preferences": [
+      "pe",
+      "art"
+    ],
+    "grade": 11,
+    "id": "s004",
+    "name": "David Wilson",
+    "required_courses": [
+      "math11",
+      "eng11",
+      "sci11"
+    ]
+  },
+  {
+    "elective_preferences": [
+      "music",
+      "pe"
+    ],
+    "grade": 11,
+    "id": "s005",
+    "name": "Eve Brown",
+    "required_courses": [
+      "math11",
+      "eng11",
+      "sci11"
+    ]
+  },
+  {
+    "elective_preferences": [
+      "art",
+      "music"
+    ],
+    "grade": 11,
+    "id": "s006",
+    "name": "Frank Miller",
+    "required_courses": [
+      "math11",
+      "eng11",
+      "sci11"
+    ]
+  },
+  {
+    "elective_preferences": [
+      "pe",
+      "music"
+    ],
+    "grade": 12,
+    "id": "s007",
+    "name": "Grace Lee",
+    "required_courses": [
+      "math12",
+      "eng12",
+      "gov"
+    ]
+  },
+  {
+    "elective_preferences": [
+      "art",
+      "pe"
+    ],
+    "grade": 12,
+    "id": "s008",
+    "name": "Henry Taylor",
+    "required_courses": [
+      "math12",
+      "eng12",
+      "gov"
+    ]
+  },
+  {
+    "elective_preferences": [
+      "music",
+      "art"
+    ],
+    "grade": 12,
+    "id": "s009",
+    "name": "Ivy Chen",
+    "required_courses": [
+      "math12",
+      "eng12",
+      "gov"
+    ]
+  },
+  {
+    "elective_preferences": [
+      "pe",
+      "music"
+    ],
+    "grade": 10,
+    "id": "s010",
+    "name": "Jack Robinson",
+    "required_courses": [
+      "math10",
+      "eng10",
+      "sci10"
+    ]
+  }
+]

@@ -1,0 +1,41 @@
+[package]
+name = "school-scheduler"
+version = "0.1.0"
+edition = "2021"
+description = "Constraint-based school schedule generator"
+license = "MIT"
+
+[dependencies]
+# ILP Solver
+good_lp = { version = "1.8", default-features = false, features = ["highs"] }
+
+# CLI & User Interface
+clap = { version = "4", features = ["derive"] }
+indicatif = "0.17"
+colored = "2"
+
+# Data Handling
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+toml = "0.8"
+
+# Error Handling
+thiserror = "1"
+anyhow = "1"
+
+# Utilities
+chrono = { version = "0.4", features = ["serde"] }
+itertools = "0.12"
+
+[dev-dependencies]
+insta = { version = "1", features = ["json"] }
+proptest = "1"
+criterion = "0.5"
+
+[[bench]]
+name = "scheduler_bench"
+harness = false
+
+[profile.release]
+lto = true
+codegen-units = 1

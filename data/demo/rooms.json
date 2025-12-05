@@ -1,0 +1,57 @@
+[
+  {
+    "capacity": 30,
+    "features": [],
+    "id": "101",
+    "name": "Room 101",
+    "unavailable": []
+  },
+  {
+    "capacity": 30,
+    "features": [],
+    "id": "102",
+    "name": "Room 102",
+    "unavailable": []
+  },
+  {
+    "capacity": 30,
+    "features": [],
+    "id": "103",
+    "name": "Room 103",
+    "unavailable": []
+  },
+  {
+    "capacity": 30,
+    "features": [],
+    "id": "104",
+    "name": "Room 104",
+    "unavailable": []
+  },
+  {
+    "capacity": 24,
+    "features": [
+      "lab"
+    ],
+    "id": "201",
+    "name": "Science Lab",
+    "unavailable": []
+  },
+  {
+    "capacity": 20,
+    "features": [
+      "art_room"
+    ],
+    "id": "301",
+    "name": "Art Studio",
+    "unavailable": []
+  },
+  {
+    "capacity": 60,
+    "features": [
+      "gym"
+    ],
+    "id": "gym",
+    "name": "Gymnasium",
+    "unavailable": []
+  }
+]

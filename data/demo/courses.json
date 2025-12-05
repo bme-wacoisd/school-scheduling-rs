@@ -1,0 +1,124 @@
+[
+  {
+    "grade_restrictions": [
+      10
+    ],
+    "id": "math10",
+    "max_students": 25,
+    "name": "Algebra 2",
+    "required_features": [],
+    "sections": 1
+  },
+  {
+    "grade_restrictions": [
+      11
+    ],
+    "id": "math11",
+    "max_students": 25,
+    "name": "Pre-Calculus",
+    "required_features": [],
+    "sections": 1
+  },
+  {
+    "grade_restrictions": [
+      12
+    ],
+    "id": "math12",
+    "max_students": 25,
+    "name": "Calculus",
+    "required_features": [],
+    "sections": 1
+  },
+  {
+    "grade_restrictions": [
+      10
+    ],
+    "id": "eng10",
+    "max_students": 25,
+    "name": "English 10",
+    "required_features": [],
+    "sections": 1
+  },
+  {
+    "grade_restrictions": [
+      11
+    ],
+    "id": "eng11",
+    "max_students": 25,
+    "name": "English 11",
+    "required_features": [],
+    "sections": 1
+  },
+  {
+    "grade_restrictions": [
+      12
+    ],
+    "id": "eng12",
+    "max_students": 25,
+    "name": "English 12",
+    "required_features": [],
+    "sections": 1
+  },
+  {
+    "grade_restrictions": [
+      10
+    ],
+    "id": "sci10",
+    "max_students": 24,
+    "name": "Biology",
+    "required_features": [
+      "lab"
+    ],
+    "sections": 1
+  },
+  {
+    "grade_restrictions": [
+      11
+    ],
+    "id": "sci11",
+    "max_students": 24,
+    "name": "Chemistry",
+    "required_features": [
+      "lab"
+    ],
+    "sections": 1
+  },
+  {
+    "grade_restrictions": [
+      12
+    ],
+    "id": "gov",
+    "max_students": 25,
+    "name": "Government",
+    "required_features": [],
+    "sections": 1
+  },
+  {
+    "grade_restrictions": null,
+    "id": "art",
+    "max_students": 20,
+    "name": "Art",
+    "required_features": [
+      "art_room"
+    ],
+    "sections": 2
+  },
+  {
+    "grade_restrictions": null,
+    "id": "music",
+    "max_students": 25,
+    "name": "Music",
+    "required_features": [],
+    "sections": 2
+  },
+  {
+    "grade_restrictions": null,
+    "id": "pe",
+    "max_students": 30,
+    "name": "Physical Education",
+    "required_features": [
+      "gym"
+    ],
+    "sections": 2
+  }
+]

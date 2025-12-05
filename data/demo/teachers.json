@@ -1,0 +1,62 @@
+[
+  {
+    "id": "t001",
+    "max_sections": 4,
+    "name": "Ms. Anderson",
+    "subjects": [
+      "math10",
+      "math11",
+      "math12"
+    ],
+    "unavailable": []
+  },
+  {
+    "id": "t002",
+    "max_sections": 4,
+    "name": "Mr. Baker",
+    "subjects": [
+      "eng10",
+      "eng11",
+      "eng12"
+    ],
+    "unavailable": []
+  },
+  {
+    "id": "t003",
+    "max_sections": 3,
+    "name": "Dr. Clark",
+    "subjects": [
+      "sci10",
+      "sci11"
+    ],
+    "unavailable": []
+  },
+  {
+    "id": "t004",
+    "max_sections": 2,
+    "name": "Ms. Davis",
+    "subjects": [
+      "gov"
+    ],
+    "unavailable": []
+  },
+  {
+    "id": "t005",
+    "max_sections": 4,
+    "name": "Mr. Evans",
+    "subjects": [
+      "art",
+      "music"
+    ],
+    "unavailable": []
+  },
+  {
+    "id": "t006",
+    "max_sections": 4,
+    "name": "Coach Fisher",
+    "subjects": [
+      "pe"
+    ],
+    "unavailable": []
+  }
+]
