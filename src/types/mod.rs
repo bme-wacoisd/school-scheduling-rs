@@ -40,7 +40,7 @@ impl fmt::Display for TeacherId {
 }
 
 /// Newtype for course identifiers
-#[derive(Debug, Clone, PartialEq, Eq, Hash, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize, Deserialize)]
 pub struct CourseId(pub String);
 
 impl fmt::Display for CourseId {
