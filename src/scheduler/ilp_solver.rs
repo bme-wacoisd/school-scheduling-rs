@@ -2,7 +2,7 @@ use crate::error::Result;
 use crate::types::{Course, CourseId, Section, Student, UnassignedCourse};
 use good_lp::{constraint, variable, variables, Expression, Solution, SolverModel};
 use indicatif::ProgressBar;
-use std::collections::{HashMap, HashSet};
+use std::collections::{BTreeMap, BTreeSet, HashSet};
 
 /// Phase 4: ILP-based student assignment
 ///
@@ -17,11 +17,12 @@ pub fn solve_student_assignment(
     courses: &[Course],
     progress: &ProgressBar,
 ) -> Result<(Vec<Section>, Vec<UnassignedCourse>)> {
-    let course_map: HashMap<&CourseId, &Course> = courses.iter().map(|c| (&c.id, c)).collect();
+    // Use BTreeMap for deterministic iteration order
+    let course_map: BTreeMap<&CourseId, &Course> = courses.iter().map(|c| (&c.id, c)).collect();
 
-    // Build section lookup structures
-    let section_indices: HashMap<&CourseId, Vec<usize>> = {
-        let mut map: HashMap<&CourseId, Vec<usize>> = HashMap::new();
+    // Build section lookup structures (deterministic order)
+    let section_indices: BTreeMap<&CourseId, Vec<usize>> = {
+        let mut map: BTreeMap<&CourseId, Vec<usize>> = BTreeMap::new();
         for (idx, section) in sections.iter().enumerate() {
             map.entry(&section.course_id).or_default().push(idx);
         }
@@ -39,7 +40,8 @@ pub fn solve_student_assignment(
     let mut vars = variables!();
 
     // x[s][k] = 1 if student s assigned to section k
-    let mut x: HashMap<(usize, usize), _> = HashMap::new();
+    // Using BTreeMap for deterministic iteration order
+    let mut x: BTreeMap<(usize, usize), _> = BTreeMap::new();
 
     // Only create variables for valid student-section combinations
     for (s, student) in students.iter().enumerate() {
@@ -213,7 +215,7 @@ fn determine_unassigned_reason(
     course_id: &CourseId,
     sections: &[Section],
     section_periods: &[HashSet<(u8, u8)>],
-    course_map: &HashMap<&CourseId, &Course>,
+    course_map: &BTreeMap<&CourseId, &Course>,
 ) -> String {
     // Check grade restriction
     if let Some(course) = course_map.get(course_id) {

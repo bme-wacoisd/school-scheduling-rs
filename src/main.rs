@@ -23,7 +23,11 @@ struct Cli {
 #[derive(Subcommand)]
 enum Commands {
     /// Run demo with sample data
-    Demo,
+    Demo {
+        /// Only save if score improves or matches previous best
+        #[arg(long)]
+        monotonic: bool,
+    },
 
     /// Generate a schedule from input data
     Schedule {
@@ -42,6 +46,10 @@ enum Commands {
         /// Suppress progress output, print JSON summary only
         #[arg(short, long)]
         quiet: bool,
+
+        /// Only save if score improves or matches previous best
+        #[arg(long)]
+        monotonic: bool,
     },
 
     /// Validate an existing schedule
@@ -87,13 +95,14 @@ fn main() -> Result<()> {
     let cli = Cli::parse();
 
     match cli.command {
-        Commands::Demo => run_demo(),
+        Commands::Demo { monotonic } => run_demo(monotonic),
         Commands::Schedule {
             data,
             output,
             format,
             quiet,
-        } => run_schedule(&data, &output, &format, quiet),
+            monotonic,
+        } => run_schedule(&data, &output, &format, quiet, monotonic),
         Commands::Validate {
             schedule,
             data,
@@ -109,11 +118,12 @@ fn main() -> Result<()> {
     }
 }
 
-fn run_demo() -> Result<()> {
+fn run_demo(monotonic: bool) -> Result<()> {
     println!("{}", "School Scheduler Demo".bold().cyan());
     println!("{}", "─".repeat(40));
 
     let demo_path = PathBuf::from("data/demo");
+    let output_path = PathBuf::from("output");
 
     if !demo_path.join("students.json").exists() {
         println!(
@@ -121,6 +131,17 @@ fn run_demo() -> Result<()> {
             "Demo data not found. Creating sample data...".yellow()
         );
         create_demo_data(&demo_path)?;
+    }
+
+    // Load baseline score if monotonic mode and schedule exists
+    let baseline_score = if monotonic {
+        load_baseline_score(&output_path.join("schedule.json"))
+    } else {
+        None
+    };
+
+    if let Some(score) = baseline_score {
+        println!("Baseline score: {:.1}/100", score);
     }
 
     println!("Loading demo data from: {}", demo_path.display());
@@ -150,32 +171,77 @@ fn run_demo() -> Result<()> {
     // Validate
     let validation = validate_schedule(&schedule, &input);
 
+    // Check if we should save (monotonic mode)
+    let should_save = match baseline_score {
+        Some(baseline) if monotonic => {
+            if validation.total_score >= baseline {
+                if validation.total_score > baseline {
+                    println!(
+                        "{}",
+                        format!("✓ Improved: {:.1} → {:.1}", baseline, validation.total_score)
+                            .green()
+                            .bold()
+                    );
+                } else {
+                    println!(
+                        "{}",
+                        format!("= Matched: {:.1}", validation.total_score).cyan()
+                    );
+                }
+                true
+            } else {
+                println!(
+                    "{}",
+                    format!(
+                        "✗ Regression: {:.1} → {:.1} (not saving)",
+                        baseline, validation.total_score
+                    )
+                    .red()
+                    .bold()
+                );
+                false
+            }
+        }
+        _ => true,
+    };
+
     // Print summary
     print_summary(&schedule, &validation);
 
-    // Write output
-    let output_path = PathBuf::from("output");
-    generate_reports(
-        &schedule,
-        &input,
-        &validation,
-        &output_path,
-        &[OutputFormat::Json, OutputFormat::Markdown, OutputFormat::Text],
-    )?;
+    // Write output only if should_save
+    if should_save {
+        generate_reports(
+            &schedule,
+            &input,
+            &validation,
+            &output_path,
+            &[OutputFormat::Json, OutputFormat::Markdown, OutputFormat::Text],
+        )?;
 
-    println!(
-        "Reports written to: {}",
-        output_path.display().to_string().green()
-    );
+        println!(
+            "Reports written to: {}",
+            output_path.display().to_string().green()
+        );
+    }
 
     Ok(())
 }
 
-fn run_schedule(data: &PathBuf, output: &PathBuf, format: &str, quiet: bool) -> Result<()> {
+fn run_schedule(data: &PathBuf, output: &PathBuf, format: &str, quiet: bool, monotonic: bool) -> Result<()> {
     let input = load_input_from_dir(data).context("Failed to load input data")?;
+
+    // Load baseline score if monotonic mode
+    let baseline_score = if monotonic {
+        load_baseline_score(&output.join("schedule.json"))
+    } else {
+        None
+    };
 
     if !quiet {
         validate_input(&input)?;
+        if let Some(score) = baseline_score {
+            println!("Baseline score: {:.1}/100", score);
+        }
         println!(
             "Loaded {} students, {} teachers, {} courses, {} rooms",
             input.students.len(),
@@ -188,8 +254,48 @@ fn run_schedule(data: &PathBuf, output: &PathBuf, format: &str, quiet: bool) -> 
     let schedule = generate_schedule(&input, quiet)?;
     let validation = validate_schedule(&schedule, &input);
 
-    let formats = parse_formats(format);
-    generate_reports(&schedule, &input, &validation, output, &formats)?;
+    // Check if we should save (monotonic mode)
+    let should_save = match baseline_score {
+        Some(baseline) if monotonic => {
+            if validation.total_score >= baseline {
+                if !quiet {
+                    if validation.total_score > baseline {
+                        println!(
+                            "{}",
+                            format!("✓ Improved: {:.1} → {:.1}", baseline, validation.total_score)
+                                .green()
+                                .bold()
+                        );
+                    } else {
+                        println!(
+                            "{}",
+                            format!("= Matched: {:.1}", validation.total_score).cyan()
+                        );
+                    }
+                }
+                true
+            } else {
+                if !quiet {
+                    println!(
+                        "{}",
+                        format!(
+                            "✗ Regression: {:.1} → {:.1} (not saving)",
+                            baseline, validation.total_score
+                        )
+                        .red()
+                        .bold()
+                    );
+                }
+                false
+            }
+        }
+        _ => true,
+    };
+
+    if should_save {
+        let formats = parse_formats(format);
+        generate_reports(&schedule, &input, &validation, output, &formats)?;
+    }
 
     if quiet {
         // Print JSON summary only
@@ -197,10 +303,26 @@ fn run_schedule(data: &PathBuf, output: &PathBuf, format: &str, quiet: bool) -> 
         println!("{}", summary);
     } else {
         print_summary(&schedule, &validation);
-        println!("Reports written to: {}", output.display().to_string().green());
+        if should_save {
+            println!("Reports written to: {}", output.display().to_string().green());
+        }
     }
 
     Ok(())
+}
+
+/// Load the score from an existing schedule file
+fn load_baseline_score(path: &PathBuf) -> Option<f64> {
+    if !path.exists() {
+        return None;
+    }
+
+    let content = std::fs::read_to_string(path).ok()?;
+    let schedule: school_scheduler::types::Schedule = serde_json::from_str(&content).ok()?;
+
+    // The score is stored in metadata, but we need to recalculate for accuracy
+    // For now, just return the stored score
+    Some(schedule.metadata.score)
 }
 
 fn run_validate(schedule_path: &PathBuf, data: &PathBuf, verbose: bool) -> Result<()> {

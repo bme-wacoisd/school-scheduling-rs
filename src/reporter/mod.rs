@@ -30,18 +30,22 @@ pub fn generate_reports(
 ) -> Result<()> {
     fs::create_dir_all(output_dir)?;
 
+    // Clone schedule and update score from validation
+    let mut schedule_with_score = schedule.clone();
+    schedule_with_score.metadata.score = validation.total_score;
+
     for format in formats {
         match format {
             OutputFormat::Json => {
-                let json = generate_json_report(schedule)?;
+                let json = generate_json_report(&schedule_with_score)?;
                 fs::write(output_dir.join("schedule.json"), json)?;
             }
             OutputFormat::Markdown => {
-                let md = generate_markdown_report(schedule, input, validation);
+                let md = generate_markdown_report(&schedule_with_score, input, validation);
                 fs::write(output_dir.join("schedule.md"), md)?;
             }
             OutputFormat::Text => {
-                let txt = generate_text_report(schedule, input, validation);
+                let txt = generate_text_report(&schedule_with_score, input, validation);
                 fs::write(output_dir.join("schedule.txt"), txt)?;
             }
         }
