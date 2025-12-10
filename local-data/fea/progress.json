@@ -1,0 +1,19 @@
+{
+  "project": "FEA - Waco ISD Future Educators Academy",
+  "session_history": [],
+  "data_status": {
+    "students_extracted": false,
+    "teachers_extracted": false,
+    "courses_extracted": false,
+    "rooms_extracted": false
+  },
+  "features": [
+    {"id": "data-extraction", "description": "Extract all data from PDFs to JSON", "status": "pending"},
+    {"id": "baseline-schedule", "description": "Generate schedule with no hard violations", "status": "pending"},
+    {"id": "teacher-balance", "description": "Ensure no teacher overloads", "status": "pending"},
+    {"id": "required-courses", "description": "100% required course fulfillment", "status": "pending"},
+    {"id": "elective-prefs", "description": "Maximize elective preference satisfaction", "status": "pending"}
+  ],
+  "known_issues": [],
+  "notes": "Use /project:fea-init for first session, /project:fea-work for subsequent sessions"
+}

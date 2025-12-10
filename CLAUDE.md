@@ -1,5 +1,29 @@
 # School Scheduler - Claude Code Guide
 
+## Active Project: FEA (Waco ISD Future Educators Academy)
+
+**Slash commands for FEA work:**
+- `/project:fea-init` - First session: extract PDF data, create JSON files
+- `/project:fea-work` - Continue work: check progress, tackle next feature
+
+**Data locations:**
+- Raw input: `input/fea/*.pdf` + `input/fea/teachers.md`
+- Working data: `local-data/fea/*.json`
+- Output: `output/fea/`
+
+**FEA constraints:**
+- 4 classrooms (Pasisis & Giddings share)
+- Multi-grade sections allowed
+- Part-time teachers: Pasisis, Giddings
+- Edwards replaced Lovelace mid-year (never output "Lovelace")
+
+**Validate JSON before scheduling:**
+```bash
+python scripts/validate-json.py local-data/fea/
+```
+
+---
+
 ## Quick Start
 
 ```bash

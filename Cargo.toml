@@ -6,8 +6,9 @@ description = "Constraint-based school schedule generator"
 license = "MIT"
 
 [dependencies]
-# ILP Solver
-good_lp = { version = "1.8", default-features = false, features = ["highs"] }
+# ILP Solver - HiGHS is fast industrial-strength solver
+# Requires C++ toolchain to build; use GitHub Actions for pre-built binaries
+good_lp = { version = "1.14", default-features = false, features = ["highs"] }
 
 # CLI & User Interface
 clap = { version = "4", features = ["derive"] }

@@ -17,5 +17,8 @@ target/
 .idea/
 
 # Project-specific
-local-data/
+local-data/*
+!local-data/fea/
+local-data/fea/*
+!local-data/fea/progress.json
 output/
